@@ -1,6 +1,6 @@
 package com.leelab.bnwserver.dto;
 
-public class Record {
+public class RecordDto {
 	private String id;
 	private int win;
 	private int draw;
@@ -8,9 +8,9 @@ public class Record {
 	private int score;
 	private double winning_rate;
 	
-	public Record(){}
+	public RecordDto(){}
 	
-	public Record(String id, int win, int draw, int lose, int score, double winning_rate) {
+	public RecordDto(String id, int win, int draw, int lose, int score, double winning_rate) {
 		this.id = id;
 		this.win = win;
 		this.draw = draw;
