@@ -2,7 +2,7 @@ package com.leelab.bnwserver.dto;
 
 import java.sql.Timestamp;
 
-public class Game {
+public class GameDto {
 	private int no;
 	private Timestamp create_at;
 	private String gamer_1;
@@ -13,9 +13,9 @@ public class Game {
 	private int gamer_1_score;
 	private int gamer_2_score;
 	
-	public Game() {}
+	public GameDto() {}
 
-	public Game(int no, Timestamp create_at, String gamer_1, String gamer_2, Timestamp finish_at, String winner, String loser, int gamer_1_score, int gamer_2_score) {
+	public GameDto(int no, Timestamp create_at, String gamer_1, String gamer_2, Timestamp finish_at, String winner, String loser, int gamer_1_score, int gamer_2_score) {
 		this.no = no;
 		this.create_at = create_at;
 		this.gamer_1 = gamer_1;

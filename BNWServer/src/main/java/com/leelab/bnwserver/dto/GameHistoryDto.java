@@ -1,13 +1,13 @@
 package com.leelab.bnwserver.dto;
 
-public class GameHistory {
+public class GameHistoryDto {
 	private int no;
 	private String id;
 	private int score;
 	
-	public GameHistory(){}
+	public GameHistoryDto(){}
 
-	public GameHistory(int no, String id, int score) {
+	public GameHistoryDto(int no, String id, int score) {
 		this.no = no;
 		this.id = id;
 		this.score = score;
