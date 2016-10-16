@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leelab.bnwserver.dao.BnwUserDao">
+	
+	<insert id="addUser" parameterType="com.leelab.bnwserver.dto.BnwUserDto">
+		INSERT INTO BNW_USER(ID, PASSWORD, PROFILE_URL, EMAIL, BIRTH, PHONE, CREATE_DATE)
+		VALUES(#{id}, #{password}, #{profile_url}, #{email}, #{birth}, #{phone}, #{create_date})
+	</insert>
+	
+	<delete id="deleteAll">
+		DELETE FROM BNW_USER
+	</delete>
+	
+	<select id="getCount" resultType="int">
+		SELECT COUNT(*) FROM BNW_USER
+	</select>
+</mapper>
