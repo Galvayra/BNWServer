@@ -26,26 +26,6 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-		<beans:property name="username" value="leehg"/>
-		<beans:property name="password" value="1234"/>
-		<beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-	</beans:bean>
-	
-	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<beans:property name="dataSource" ref="dataSource"/>
-		<beans:property name="mapperLocations" value="classpath:com/leelab/bnwserver/dao/mapper/*.xml"/>
-	</beans:bean>
-	
-	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-		<beans:constructor-arg index="0" ref="sqlSessionFactory"/>
-	</beans:bean>
-	
-	<beans:bean id="loginService" class="com.leelab.bnwserver.service.LoginService" scope="prototype">
-		<beans:property name="sqlSession" ref="sqlSession"/>
-	</beans:bean>
-	
 	<context:component-scan base-package="com.leelab.bnwserver" />
 
 </beans:beans>

@@ -2,6 +2,8 @@ package com.leelab.bnwserver;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +26,12 @@ public class AndroidController {
 	
 	@ResponseBody
 	@RequestMapping(value="login", method=RequestMethod.POST)
-	public HashMap<String, Object> loginRequest(@RequestBody HashMap<String, Object> param) {
+	public HashMap<String, Object> loginRequest(@RequestBody HashMap<String, Object> param, HttpSession session) {
 		logger.info("로그인 요청");
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		
-		loginService.execute(param, map);
+
+		loginService.handleRequest(param, map, session);
 		
 		return map;
 	}
