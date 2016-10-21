@@ -3,6 +3,10 @@ package com.leelab.bnwserver;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.leelab.bnwserver.dao.BnwUserDao;
+import com.leelab.bnwserver.dto.BnwUserDto;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
@@ -29,8 +34,12 @@ public class TestApplication {
 	}
 	
 	@Test
-	public void test() {
+	public void test() throws ParseException {
 		user.deleteAll();
-		assertThat(user.getCount(), is(0));
+		user.addUser(new BnwUserDto("gusrb0808", "cjsrn1992", "", "gusrb0808@naver.com", new SimpleDateFormat("yyyy-MM-dd").parse("1992-08-08"), "010-3221-6564", new SimpleDateFormat("yyyy-MM-dd").parse("1992-08-08")));
+		assertThat(user.getCount(), is(1));
+		
+		System.out.println(user.getUser("gusrb0808"));
+		
 	}
 }
