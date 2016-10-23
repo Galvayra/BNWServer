@@ -10,10 +10,11 @@ public class BnwUserDto {
 	private Date birth;
 	private String phone;
 	private Date create_date;
+	private String nickname;
 	
 	public BnwUserDto(){}
 
-	public BnwUserDto(String id, String password, String profile_url, String email, Date birth, String phone, Date create_date) {
+	public BnwUserDto(String id, String password, String profile_url, String email, Date birth, String phone, Date create_date, String nickname) {
 		this.id = id;
 		this.password = password;
 		this.profile_url = profile_url;
@@ -21,6 +22,7 @@ public class BnwUserDto {
 		this.birth = birth;
 		this.phone = phone;
 		this.create_date = create_date;
+		this.nickname = nickname;
 	}
 
 	public String getId() {
@@ -79,10 +81,19 @@ public class BnwUserDto {
 		this.create_date = create_date;
 	}
 
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
 	@Override
 	public String toString() {
 		return "BnwUserDto [id=" + id + ", password=" + password + ", profile_url=" + profile_url + ", email=" + email
-				+ ", birth=" + birth + ", phone=" + phone + ", create_date=" + create_date + "]";
+				+ ", birth=" + birth + ", phone=" + phone + ", create_date=" + create_date + ", nickname=" + nickname
+				+ "]";
 	}
-	
+
 }

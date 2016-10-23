@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leelab.bnwserver.dao.RoomDao">
+	
+	<insert id="addRoom">
+		INSERT INTO ROOM(ROOM_NO, CREATOR)
+		VALUES(ROOM_NO_SEQ.NEXTVAL, #{param1})
+	</insert>
+	
+	<select id="getRoom" resultType="com.leelab.bnwserver.dto.RoomDto">
+		SELECT * FROM ROOM WHERE ROOM_NO = #{param1}
+	</select>
+	
+	<select id="getAll" resultType="com.leelab.bnwserver.dto.RoomDto">
+		SELECT * FROM ROOM
+	</select>
+	
+	<delete id="deleteAll">
+		DELETE FROM ROOM
+	</delete>
+	
+	<select id="getCount" resultType="int">
+		SELECT COUNT(*) FROM ROOM
+	</select>
+	
+</mapper>

@@ -2,8 +2,6 @@ package com.leelab.bnwserver.service;
 
 import java.util.HashMap;
 
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,14 +13,9 @@ public class LoginService extends Service {
 	private static final Logger logger = LoggerFactory.getLogger(LoginService.class);
 	
 	@Override
-	@SuppressWarnings("unchecked")
-	public void execute(Object... params) {
-
-		HashMap<String, Object> jsonMap = (HashMap<String, Object>) params[0];
-		HashMap<String, Object> returnMap = (HashMap<String,Object>) params[1];
-
-		String requestId = jsonMap.get("id").toString();
-		String requestPassword = jsonMap.get("password").toString();
+	public void execute(HashMap<String, Object> request, HashMap<String, Object> response) {
+		String requestId = request.get("id").toString();
+		String requestPassword = request.get("password").toString();
 
 		Login result = null;
 		
@@ -33,7 +26,8 @@ public class LoginService extends Service {
 			if(user.getPassword().equals(requestPassword))
 			{
 				result = Login.OK;
-				((HttpSession)params[2]).setAttribute("id", user.getId());
+				response.put("id", user.getId());
+				response.put("password", user.getPassword());
 				logger.info("{} 로그인 승인", user.getId());
 			}
 			else
@@ -48,7 +42,7 @@ public class LoginService extends Service {
 			logger.info("{} 존재하지 않는 아이디", requestId);
 		}
 		
-		returnMap.put("result", result);
+		response.put("result", result);
 	}
 
 }

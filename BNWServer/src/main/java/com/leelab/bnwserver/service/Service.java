@@ -1,5 +1,7 @@
 package com.leelab.bnwserver.service;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.session.SqlSession;
 
 public abstract class Service {
@@ -7,11 +9,13 @@ public abstract class Service {
 	private SqlSession sqlSession;
 	private Object[] params;
 	
-	public abstract void execute(Object...params);
+	public abstract void execute(HashMap<String, Object> request, HashMap<String, Object> response);
 	
-	public void handleRequest(Object...params) {
+	public HashMap<String, Object> handleRequest(HashMap<String, Object> input, Object...params) {
 		this.params = params;
-		execute(params);
+		HashMap<String, Object> response = new HashMap<String, Object>();
+		execute(input, response);
+		return response;
 	}
 	
 	public <T> T callDao(Class<T> clazz) {
@@ -34,5 +38,9 @@ public abstract class Service {
 		this.params = params;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <T> T getParameter(int index, Class<T> clazz) {
+		return (T)params[index];
+	}
 	
 }

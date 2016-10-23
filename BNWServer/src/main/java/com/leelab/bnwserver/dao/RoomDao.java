@@ -1,0 +1,13 @@
+package com.leelab.bnwserver.dao;
+
+import java.util.ArrayList;
+
+import com.leelab.bnwserver.dto.RoomDto;
+
+public interface RoomDao {
+	public void deleteAll();
+	public int getCount();
+	public void addRoom(String creator);
+	public RoomDto getRoom(int room_no);
+	public ArrayList<RoomDto> getAll();
+}
