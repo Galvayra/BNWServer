@@ -1,5 +1,0 @@
-package com.sns.interceptor;
-
-public class CustomInterceptor {
-
-}

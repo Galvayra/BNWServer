@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-
-	
-	<logger name="com.sns.controller">
-		<level value="info"/>
-	</logger>
