@@ -18,6 +18,13 @@ public abstract class Service {
 		return response;
 	}
 	
+	public HashMap<String, Object> handleRequest(Object...params) {
+		this.params = params;
+		HashMap<String, Object> response = new HashMap<String, Object>();
+		execute(null, response);
+		return response;
+	}
+	
 	public <T> T callDao(Class<T> clazz) {
 		return sqlSession.getMapper(clazz);
 	}

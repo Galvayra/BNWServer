@@ -14,8 +14,8 @@ public class MyPageService extends Service {
 	
 	@Override
 	public void execute(HashMap<String, Object> request, HashMap<String, Object> response) {
+		String id = getParameter(0, String.class);
 		
-		Object id = request.get("id");
 		if(id!=null)
 		{
 			logger.info("유효한 요청 확인{}, 정보 전송", id);

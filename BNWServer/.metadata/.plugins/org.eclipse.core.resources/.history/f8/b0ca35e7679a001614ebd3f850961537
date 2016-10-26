@@ -1,0 +1,23 @@
+package com.sns.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class MainController {
+	
+	
+	@RequestMapping(value = "/")
+	public String mainpage()
+	{
+		System.out.println("∏ﬁ¿Œ");
+		return "main";
+	}
+
+	@RequestMapping(value = "/dto")
+	public String test()
+	{
+		return "Test2";
+		
+	}
+}

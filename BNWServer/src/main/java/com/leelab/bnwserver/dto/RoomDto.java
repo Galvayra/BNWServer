@@ -5,14 +5,16 @@ public class RoomDto {
 	private String creator;
 	private String participant;
 	private int room_state;
+	private String room_title;
 	
 	public RoomDto(){}
 
-	public RoomDto(int room_no, String creator, String participant, int room_state) {
+	public RoomDto(int room_no, String creator, String participant, int room_state, String room_title) {
 		this.room_no = room_no;
 		this.creator = creator;
 		this.participant = participant;
 		this.room_state = room_state;
+		this.room_title = room_title;
 	}
 
 	public int getRoom_no() {
@@ -47,9 +49,12 @@ public class RoomDto {
 		this.room_state = room_state;
 	}
 
-	@Override
-	public String toString() {
-		return "RoomDto [room_no=" + room_no + ", creator=" + creator + ", participant=" + participant + ", room_state="
-				+ room_state + "]";
+	public String getRoom_title() {
+		return room_title;
 	}
+
+	public void setRoom_title(String room_title) {
+		this.room_title = room_title;
+	}
+
 }

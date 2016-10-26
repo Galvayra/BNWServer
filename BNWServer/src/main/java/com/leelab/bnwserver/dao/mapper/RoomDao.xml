@@ -6,8 +6,8 @@
 <mapper namespace="com.leelab.bnwserver.dao.RoomDao">
 	
 	<insert id="addRoom">
-		INSERT INTO ROOM(ROOM_NO, CREATOR)
-		VALUES(ROOM_NO_SEQ.NEXTVAL, #{param1})
+		INSERT INTO ROOM(ROOM_NO, CREATOR, ROOM_TITLE)
+		VALUES(#{param1}, #{param2}, #{param3})
 	</insert>
 	
 	<select id="getRoom" resultType="com.leelab.bnwserver.dto.RoomDto">
@@ -16,6 +16,10 @@
 	
 	<select id="getAll" resultType="com.leelab.bnwserver.dto.RoomDto">
 		SELECT * FROM ROOM
+	</select>
+	
+	<select id="getNextRoomNumber" resultType="int">
+		SELECT ROOM_NO_SEQ.NEXTVAL FROM DUAL
 	</select>
 	
 	<delete id="deleteAll">

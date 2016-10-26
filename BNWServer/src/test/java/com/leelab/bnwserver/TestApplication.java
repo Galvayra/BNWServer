@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -20,9 +19,7 @@ import com.leelab.bnwserver.dao.BnwUserDao;
 import com.leelab.bnwserver.dao.RecordDao;
 import com.leelab.bnwserver.dao.RoomDao;
 import com.leelab.bnwserver.dto.BnwUserDto;
-import com.leelab.bnwserver.dto.RecordDto;
 import com.leelab.bnwserver.dto.RoomDto;
-import com.leelab.bnwserver.dto.RoomState;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
@@ -50,10 +47,14 @@ public class TestApplication {
 	
 	@Test
 	public void test() throws ParseException {
-//		room.deleteAll();
-		recorder.addRecord(root.getId());
-		ArrayList<RoomDto> rooms = room.getAll();
+		//room.deleteAll();
+		//recorder.addRecord(root.getId());
+		//room.addRoom(root.getId(), "号号号");
+		int nextRoom = room.getNextRoomNumber();
+		room.addRoom(nextRoom, root.getId(), "号号号");
 		
+		ArrayList<RoomDto> rooms = room.getAll();
+
 		for(RoomDto r : rooms)
 		{
 			System.out.println(r);

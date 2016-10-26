@@ -1,0 +1,24 @@
+package com.sns.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Locale;
+
+import org.apache.log4j.spi.LoggerFactory;
+import org.slf4j.Logger;
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class TestController {
+	
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(TestController.class);
+	
+	@RequestMapping(value="/do")
+	public String test(Locale locale)
+	{
+		logger.info("------------------------------",locale);
+		System.out.println("dd");
+		return "Test";
+		
+	}
+}

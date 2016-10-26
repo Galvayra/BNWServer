@@ -1,0 +1,17 @@
+package controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class TestController {
+	
+	
+	@RequestMapping(value="do")
+	public String test()
+	{
+		System.out.println("dd");
+		return "test";
+		
+	}
+}
