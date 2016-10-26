@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.leelab.bnwserver.service.CreateRoomService;
 import com.leelab.bnwserver.service.LoginService;
 import com.leelab.bnwserver.service.MyPageService;
-import com.leelab.bnwserver.service.RoomListService;
+import com.leelab.bnwserver.service.room.CreateRoomService;
+import com.leelab.bnwserver.service.room.RoomListService;
 
 @RestController
 @RequestMapping("mobile")

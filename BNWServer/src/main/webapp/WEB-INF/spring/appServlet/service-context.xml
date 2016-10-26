@@ -13,11 +13,11 @@
 		<property name="sqlSession" ref="sqlSession"/>
 	</bean>
 	
-	<bean id="roomListService" class="com.leelab.bnwserver.service.RoomListService">
+	<bean id="roomListService" class="com.leelab.bnwserver.service.room.RoomListService">
 		<property name="sqlSession" ref="sqlSession"/>
 	</bean>
 		
-	<bean id="createRoomService" class="com.leelab.bnwserver.service.CreateRoomService">
+	<bean id="createRoomService" class="com.leelab.bnwserver.service.room.CreateRoomService">
 		<property name="sqlSession" ref="sqlSession"/>
 	</bean>	
 		

@@ -1,8 +1,9 @@
-package com.leelab.bnwserver.service;
+package com.leelab.bnwserver.service.room;
 
 import java.util.HashMap;
 
 import com.leelab.bnwserver.dao.RoomDao;
+import com.leelab.bnwserver.service.Service;
 
 public class CreateRoomService extends Service {
 
