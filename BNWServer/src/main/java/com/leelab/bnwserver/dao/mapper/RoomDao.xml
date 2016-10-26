@@ -30,4 +30,8 @@
 		SELECT COUNT(*) FROM ROOM
 	</select>
 	
+	<update id="updateRoom" parameterType="com.leelab.bnwserver.dto.RoomDto">
+		UPDATE ROOM SET CREATOR = #{creator}, PARTICIPANT = #{participant}, ROOM_STATE = #{room_state}, ROOM_TITLE = #{room_title} WHERE ROOM_NO = #{room_no}
+	</update>
+	
 </mapper>

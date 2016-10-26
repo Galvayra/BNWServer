@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.leelab.bnwserver.service.LoginService;
 import com.leelab.bnwserver.service.MyPageService;
 import com.leelab.bnwserver.service.room.CreateRoomService;
+import com.leelab.bnwserver.service.room.EnterRoomService;
 import com.leelab.bnwserver.service.room.RoomListService;
 
 @RestController
@@ -22,15 +23,11 @@ public class AndroidController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AndroidController.class);
 	
-	@Autowired
-	private LoginService loginService;
-	
-	@Autowired
-	private MyPageService myPageService;
-	
+	@Autowired private LoginService loginService;
+	@Autowired private MyPageService myPageService;
 	@Autowired private RoomListService roomListService;
-	
 	@Autowired private CreateRoomService createRoomService;
+	@Autowired private EnterRoomService enterRoomService;
 	
 	@RequestMapping(value="login", method=RequestMethod.POST)
 	public HashMap<String, Object> loginRequest(@RequestBody HashMap<String, Object> param) {
@@ -54,5 +51,11 @@ public class AndroidController {
 	public HashMap<String, Object> createRoom(@RequestBody HashMap<String, Object> param) {
 		logger.info("规 积己");
 		return createRoomService.handleRequest(param);
+	}
+	
+	@RequestMapping(value="enterroom", method=RequestMethod.POST)
+	public HashMap<String, Object> enter(@RequestBody HashMap<String, Object> param) {
+		logger.info("规 涝厘 夸没");
+		return enterRoomService.handleRequest(param);
 	}
 }

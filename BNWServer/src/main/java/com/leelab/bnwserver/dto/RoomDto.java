@@ -57,4 +57,10 @@ public class RoomDto {
 		this.room_title = room_title;
 	}
 
+	@Override
+	public String toString() {
+		return "RoomDto [room_no=" + room_no + ", creator=" + creator + ", participant=" + participant + ", room_state="
+				+ room_state + ", room_title=" + room_title + "]";
+	}
+	
 }

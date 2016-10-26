@@ -20,6 +20,7 @@ import com.leelab.bnwserver.dao.RecordDao;
 import com.leelab.bnwserver.dao.RoomDao;
 import com.leelab.bnwserver.dto.BnwUserDto;
 import com.leelab.bnwserver.dto.RoomDto;
+import com.leelab.bnwserver.dto.RoomState;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
@@ -50,15 +51,27 @@ public class TestApplication {
 		//room.deleteAll();
 		//recorder.addRecord(root.getId());
 		//room.addRoom(root.getId(), "号号号");
-		int nextRoom = room.getNextRoomNumber();
-		room.addRoom(nextRoom, root.getId(), "号号号");
+		//int nextRoom = room.getNextRoomNumber();
+		//room.addRoom(nextRoom, root.getId(), "号号号");
 		
-		ArrayList<RoomDto> rooms = room.getAll();
-
-		for(RoomDto r : rooms)
-		{
-			System.out.println(r);
-		}
+		RoomDto someRoom = room.getRoom(22);
+		
+		System.out.println(someRoom);
+		
+		someRoom.setParticipant(tUser.getId());
+		someRoom.setRoom_state(RoomState.FULL.getValue());
+		room.updateRoom(someRoom);
+		
+		RoomDto updatedRoom = room.getRoom(22);
+		
+		System.out.println(updatedRoom);
+		
+//		ArrayList<RoomDto> rooms = room.getAll();
+//
+//		for(RoomDto r : rooms)
+//		{
+//			System.out.println(r.toString());
+//		}
 	}
 	
 
