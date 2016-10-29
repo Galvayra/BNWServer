@@ -24,5 +24,4 @@
 	<bean id="enterRoomService" class="com.leelab.bnwserver.service.room.EnterRoomService">
 		<property name="sqlSession" ref="sqlSession"/>
 	</bean>
-		
 </beans>

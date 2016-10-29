@@ -18,7 +18,7 @@ public class LoginService extends Service {
 		String requestPassword = request.get("password").toString();
 
 		Login result = null;
-		
+		logger.info("ฟไรป ID - {}, PW - {}", requestId, requestPassword);
 		BnwUserDto user = callDao(BnwUserDao.class).getUser(requestId);
 		
 		if(user!=null)

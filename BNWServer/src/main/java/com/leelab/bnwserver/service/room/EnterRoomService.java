@@ -18,7 +18,8 @@ public class EnterRoomService extends Service {
 		RoomDto targetRoom = room.getRoom(room_no);
 		targetRoom.setParticipant(participant);
 		targetRoom.setRoom_state(RoomState.FULL.getValue());
-		room.updateRoom(targetRoom);		
+		room.updateRoom(targetRoom);
+		response.put("room", room.getRoom(room_no));
 	}
 	
 }
