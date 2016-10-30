@@ -9,50 +9,23 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<table border="1">
-	<tr>
-		<td>방번호</td>
-		<td>방만든이</td>
-		<td>방제목</td>
-	</tr>
-	<c:forEach var="room" items="${rooms}">
-		<tr>
-			<td onclick="test(${room.room_no})">${room.room_no}</td>
-			<td>${room.creator}</td>
-			<td>${room.room_title}</td>
-		</tr>
-	</c:forEach>
-	</table>
-	
-	<div id="t">
-		
-	</div>
-	
 	
 	<button onclick="test(5)">아작스</button>
 	
 	<script>
 	
 		function test(id) {
-			$.ajax({
-				url : "/bnwserver/a",
-		        type: "get",
-		        dataType : "json",
-		        data : { "id" : id },
-		        success : function(responseData){
-		        	for(var i=0;i<responseData.length;i++)
-		        	{
-		        		alert(responseData[i].participant);
-		        	}
-		        	
-		        	
-		        	$("#t").append(responseData.participant);
-		        },
-		        error : function(request,status,error) {
-		            alert("code:"+request.status+"\n"+"error:"+error);
-		        }
-		        
-		    });
+			
+			var ws = new WebSocket('ws:localhost:8080/bnwserver/echo');
+			ws.onopen = function(evt) {
+                alert('연결됨');
+            };
+            ws.onmessage = function(evt) {
+                alert('연결');
+            };
+            ws.onerror = function(evt) {
+                alert('끊김');
+            };
 		}
 	
 	</script>
