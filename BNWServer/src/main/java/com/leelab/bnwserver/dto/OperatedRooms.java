@@ -38,18 +38,19 @@ public class OperatedRooms {
 		}
 		else if(type.equals("chat"))
 		{
-			processTypeChat(request.getInt("room_no"), request.getString("msg"));
+			processTypeChat(request.getInt("room_no"), request.getString("id"), request.getString("msg"));
 		}
 	}
 	
-	public void processTypeChat(int room_no, String msg) {
+	public void processTypeChat(int room_no, String speaker, String msg) {
 		HashMap<String, WebSocketSession> room = getOperatedRoom(room_no);
 		JSONObject obj = new JSONObject();
 		obj.put("type", "chat");
 		obj.put("msg", msg);
+		obj.put("speaker", speaker);
 		try
 		{
-			logger.info("메세지 전송 : {}", msg);
+			logger.info("메세지 전송 : {} {}", speaker, msg);
 			room.get("super").sendMessage(new TextMessage(obj.toString()));
 			WebSocketSession participant = room.get("participant");
 			if(participant!=null)
