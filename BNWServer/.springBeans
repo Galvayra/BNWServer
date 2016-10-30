@@ -8,6 +8,8 @@
 	<enableImports><![CDATA[true]]></enableImports>
 	<configs>
 		<config>src/test/resources/test-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/appServlet/db-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/appServlet/service-context.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml</config>
