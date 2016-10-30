@@ -48,30 +48,13 @@ public class TestApplication {
 	
 	@Test
 	public void test() throws ParseException {
-		room.deleteAll();
-		//recorder.addRecord(root.getId());
-		//room.addRoom(root.getId(), "号号号");
-		//int nextRoom = room.getNextRoomNumber();
-		//room.addRoom(nextRoom, root.getId(), "号号号");
-		
-//		RoomDto someRoom = room.getRoom(22);
-//		
-//		System.out.println(someRoom);
-//		
-//		someRoom.setParticipant(tUser.getId());
-//		someRoom.setRoom_state(RoomState.FULL.getValue());
-//		room.updateRoom(someRoom);
-//		
-//		RoomDto updatedRoom = room.getRoom(22);
-//		
-//		System.out.println(updatedRoom);
-		
-//		ArrayList<RoomDto> rooms = room.getAll();
-//
-//		for(RoomDto r : rooms)
-//		{
-//			System.out.println(r.toString());
-//		}
+//		room.deleteAll();
+		ArrayList<RoomDto> rooms = room.getAll();
+
+		for(RoomDto r : rooms)
+		{
+			System.out.println(r.toString());
+		}
 	}
 	
 

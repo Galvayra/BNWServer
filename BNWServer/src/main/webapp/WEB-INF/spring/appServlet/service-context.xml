@@ -25,6 +25,8 @@
 		<property name="sqlSession" ref="sqlSession"/>
 	</bean>
 	
-	<bean id="operatedRoom" class="com.leelab.bnwserver.dto.OperatedRooms"/>
+	<bean id="operatedRoom" class="com.leelab.bnwserver.dto.OperatedRooms">
+		<property name="sqlSession" ref="sqlSession"/>
+	</bean>
 	
 </beans>

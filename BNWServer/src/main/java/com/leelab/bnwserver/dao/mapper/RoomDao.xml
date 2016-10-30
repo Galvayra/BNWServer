@@ -31,7 +31,7 @@
 	</select>
 	
 	<update id="updateRoom" parameterType="com.leelab.bnwserver.dto.RoomDto">
-		UPDATE ROOM SET CREATOR = #{creator}, PARTICIPANT = #{participant}, ROOM_STATE = #{room_state}, ROOM_TITLE = #{room_title} WHERE ROOM_NO = #{room_no}
+		UPDATE ROOM SET CREATOR = #{creator}, PARTICIPANT = #{participant}, ROOM_STATE = #{room_state}, ROOM_TITLE = #{room_title}, PARTICIPANT_READY = #{participant_ready} WHERE ROOM_NO = #{room_no}
 	</update>
 	
 </mapper>

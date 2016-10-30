@@ -37,7 +37,6 @@ public class RoomControlSocket extends TextWebSocketHandler implements Initializ
 	
 	@Override 
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		logger.info(session.hashCode()+"새로운 메세지 도착");
 		rooms.handleRequest(session, message);
 	}
 	@Override
