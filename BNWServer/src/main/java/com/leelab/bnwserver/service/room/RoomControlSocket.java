@@ -29,9 +29,14 @@ public class RoomControlSocket extends TextWebSocketHandler implements Initializ
 		logger.info(status.getReason()+","+status.getCode()+" 연결종료");
 	}
 	
+	@Override
+	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		super.afterConnectionEstablished(session);
+		logger.info("연결");
+	}
+	
 	@Override 
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		super.handleMessage(session, message);
 		logger.info(session.hashCode()+"새로운 메세지 도착");
 		rooms.handleRequest(session, message);
 	}
