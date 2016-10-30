@@ -6,9 +6,13 @@
 <mapper namespace="com.leelab.bnwserver.dao.BnwUserDao">
 	
 	<insert id="addUser" parameterType="com.leelab.bnwserver.dto.BnwUserDto">
-		INSERT INTO BNW_USER(ID, PASSWORD, PROFILE_URL, EMAIL, BIRTH, PHONE, CREATE_DATE)
-		VALUES(#{id}, #{password}, #{profile_url}, #{email}, #{birth}, #{phone}, #{create_date})
+		INSERT INTO BNW_USER(ID, PASSWORD, PROFILE_URL, EMAIL, BIRTH, PHONE, NICKNAME)
+		VALUES(#{id}, #{password}, #{profile_url}, #{email}, #{birth}, #{phone}, #{nickname})
 	</insert>
+	
+	<select id="getUser" resultType="com.leelab.bnwserver.dto.BnwUserDto">
+		SELECT * FROM BNW_USER WHERE ID = #{param1}
+	</select>
 	
 	<delete id="deleteAll">
 		DELETE FROM BNW_USER
