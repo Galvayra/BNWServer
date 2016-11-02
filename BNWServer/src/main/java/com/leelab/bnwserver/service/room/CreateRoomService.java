@@ -2,7 +2,10 @@ package com.leelab.bnwserver.service.room;
 
 import java.util.HashMap;
 
+import com.leelab.bnwserver.dao.BnwUserDao;
+import com.leelab.bnwserver.dao.RecordDao;
 import com.leelab.bnwserver.dao.RoomDao;
+import com.leelab.bnwserver.dto.RecordDto;
 import com.leelab.bnwserver.service.Service;
 
 public class CreateRoomService extends Service {
@@ -14,8 +17,20 @@ public class CreateRoomService extends Service {
 		RoomDao dao = callDao(RoomDao.class);
 		int nextRoom = dao.getNextRoomNumber();
 		dao.addRoom(nextRoom, creator, roomTitle);		
+
+		BnwUserDao userDao = callDao(BnwUserDao.class);
+		ParticipantListVo creatorVo = new ParticipantListVo();
+		creatorVo.setNickname(userDao.getUser(creator).getNickname());
+		RecordDto creatorRecord = callDao(RecordDao.class).getRecord(creator);
+		creatorVo.setWin(creatorRecord.getWin());
+		creatorVo.setDraw(creatorRecord.getDraw());
+		creatorVo.setLose(creatorRecord.getLose());
+		creatorVo.setRate(creatorRecord.getWinning_rate());
+		creatorVo.setReady(true);
+		
 		response.put("creator", creator);
 		response.put("roomTitle", roomTitle);
 		response.put("roomNo", nextRoom);
+		response.put("vo", creatorVo);
 	}
 }
