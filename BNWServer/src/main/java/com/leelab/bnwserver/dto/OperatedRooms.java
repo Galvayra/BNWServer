@@ -112,17 +112,21 @@ public class OperatedRooms {
 		int participant_ready = sqlSession.getMapper(RoomDao.class).getRoom(room_no).getParticipant_ready();
 		JSONObject obj = new JSONObject();
 		obj.put("type", "game_start_operation");
+		RoomDto room = sqlSession.getMapper(RoomDao.class).getRoom(room_no);
+		obj.put("creator", room.getCreator());
+		obj.put("participant", room.getParticipant());
 		if(participant_ready==1)
 		{
 			logger.info("{}번방 게임 시작 불가");
 			obj.put("result", false);
+			sendSuper(room_no, obj.toString());
 		}
 		else
 		{
 			logger.info("{}번방 게임 가능");
-			obj.put("result", true);			
+			obj.put("result", true);
+			broadCastInRoom(room_no, obj.toString());
 		}		
-		sendSuper(room_no, obj.toString());
 	}
 	public void processTypeReady(int room_no, boolean readyOperation) throws IOException {
 		RoomDao dao = sqlSession.getMapper(RoomDao.class);
