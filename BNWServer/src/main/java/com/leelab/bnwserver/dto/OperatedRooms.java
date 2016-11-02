@@ -13,6 +13,7 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.leelab.bnwserver.dao.BnwUserDao;
+import com.leelab.bnwserver.dao.RecordDao;
 import com.leelab.bnwserver.dao.RoomDao;
 
 public class OperatedRooms {
@@ -95,7 +96,14 @@ public class OperatedRooms {
 			obj.put("type", "notify_new_participant");
 			String participant_id = sqlSession.getMapper(RoomDao.class).getRoom(room_no).getParticipant();
 			BnwUserDto userDto = sqlSession.getMapper(BnwUserDao.class).getUser(participant_id);
+			RecordDao rDao = sqlSession.getMapper(RecordDao.class);
 			obj.put("user-info", userDto.getId());
+			obj.put("nickname", userDto.getNickname());
+			obj.put("win", rDao.getRecord(participant_id).getWin());
+			obj.put("draw", rDao.getRecord(participant_id).getDraw());
+			obj.put("lose", rDao.getRecord(participant_id).getLose());
+			obj.put("rate", rDao.getRecord(participant_id).getWinning_rate());
+			obj.put("ready", false);
 			sendSuper(room_no, obj.toString());
 			logger.info("{}번방에 참가자 접속", room_no);
 		}		
@@ -154,6 +162,7 @@ public class OperatedRooms {
 			JSONObject obj = new JSONObject();
 			obj.put("type", "out!");
 			broadCastInRoom(room_no, obj.toString());
+			sqlSession.getMapper(RoomDao.class).deleteRoom(room_no);
 		}
 		else
 		{
@@ -163,6 +172,12 @@ public class OperatedRooms {
 
 			obj.put("type", "out!");
 			sendParticipant(room_no, obj.toString());
+			RoomDao dao = sqlSession.getMapper(RoomDao.class);
+			RoomDto currentRoom = dao.getRoom(room_no);
+			currentRoom.setParticipant("");
+			currentRoom.setParticipant_ready(1);
+			currentRoom.setRoom_state(RoomState.WAIT.getValue());
+			dao.updateRoom(currentRoom);
 		}
 		
 	}

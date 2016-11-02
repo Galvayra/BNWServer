@@ -12,4 +12,5 @@ public interface RoomDao {
 	public int getNextRoomNumber();
 	public RoomDto getRoom(int room_no);
 	public ArrayList<RoomDto> getAll();
+	public void deleteRoom(int room_no);
 }

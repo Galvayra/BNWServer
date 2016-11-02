@@ -55,6 +55,18 @@ public class TestApplication {
 		{
 			System.out.println(r.toString());
 		}
+		
+		RoomDto roomA = rooms.get(0);
+		roomA.setParticipant("");
+		room.updateRoom(roomA);
+		
+		rooms = room.getAll();
+
+		for(RoomDto r : rooms)
+		{
+			System.out.println(r.toString());
+		}
+
 	}
 	
 
