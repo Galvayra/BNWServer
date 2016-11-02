@@ -155,16 +155,17 @@ public class OperatedRooms {
 		sendParticipant(room_no, result.toString());
 	}
 	public void processTypeOutOfRoom(int room_no, String inType) throws IOException {
-		logger.info("{}번방 나가기 요청 - {}", room_no, inType);
-		
+		logger.info("{}번방 나가기 요청 - !{}!", room_no, inType);
+		RoomDao dao = sqlSession.getMapper(RoomDao.class);
+
 		if(inType.equals("super"))
 		{
 			JSONObject obj = new JSONObject();
 			obj.put("type", "out!");
 			broadCastInRoom(room_no, obj.toString());
-			sqlSession.getMapper(RoomDao.class).deleteRoom(room_no);
+			dao.deleteRoom(room_no);			
 		}
-		else
+		else if(inType.equals("non-super"))
 		{
 			JSONObject obj = new JSONObject();
 			obj.put("type", "participant_out!");
@@ -172,7 +173,7 @@ public class OperatedRooms {
 
 			obj.put("type", "out!");
 			sendParticipant(room_no, obj.toString());
-			RoomDao dao = sqlSession.getMapper(RoomDao.class);
+			
 			RoomDto currentRoom = dao.getRoom(room_no);
 			currentRoom.setParticipant("");
 			currentRoom.setParticipant_ready(1);
@@ -196,7 +197,10 @@ public class OperatedRooms {
 	}
 	
 	public void sendParticipant(int room_no, String msg) throws IOException {
-		operatedRooms.get(room_no).get("participant").sendMessage(new TextMessage(msg));
+		if(operatedRooms.get(room_no).get("participant")!=null)
+		{
+			operatedRooms.get(room_no).get("participant").sendMessage(new TextMessage(msg));
+		}
 	}
 	
 }

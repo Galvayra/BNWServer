@@ -49,24 +49,22 @@ public class TestApplication {
 	@Test
 	public void test() throws ParseException {
 //		room.deleteAll();
-		ArrayList<RoomDto> rooms = room.getAll();
-
-		for(RoomDto r : rooms)
-		{
-			System.out.println(r.toString());
-		}
+//		ArrayList<RoomDto> rooms = room.getAll();
+//
+//		for(RoomDto r : rooms)
+//		{
+//			System.out.println(r.toString());
+//		}
+//		
+//		room.deleteRoom(3);
+//			
+//		for(RoomDto r : rooms)
+//		{
+//			System.out.println(r.toString());
+//		}
+		String intype = "super";
+		System.out.println(intype.equals("super"));
 		
-		RoomDto roomA = rooms.get(0);
-		roomA.setParticipant("");
-		room.updateRoom(roomA);
-		
-		rooms = room.getAll();
-
-		for(RoomDto r : rooms)
-		{
-			System.out.println(r.toString());
-		}
-
 	}
 	
 
