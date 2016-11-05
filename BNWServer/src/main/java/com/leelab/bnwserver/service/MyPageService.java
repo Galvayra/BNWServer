@@ -4,11 +4,13 @@ import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.leelab.bnwserver.dao.BnwUserDao;
 import com.leelab.bnwserver.dao.RecordDao;
 
-public class MyPageService extends Service {
+@Service
+public class MyPageService extends AbstractService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MyPageService.class);
 	

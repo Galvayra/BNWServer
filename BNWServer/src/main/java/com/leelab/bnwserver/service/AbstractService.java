@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSession;
 
-public abstract class Service {
+public abstract class AbstractService {
 	
 	private SqlSession sqlSession;
 	private Object[] params;

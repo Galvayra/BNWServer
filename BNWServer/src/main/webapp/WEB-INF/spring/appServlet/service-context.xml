@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="loginService" class="com.leelab.bnwserver.service.LoginService" scope="prototype">
+	<bean id="loginService" class="com.leelab.bnwserver.service.LoginService">
 		<property name="sqlSession" ref="sqlSession"/>
 	</bean>
 	

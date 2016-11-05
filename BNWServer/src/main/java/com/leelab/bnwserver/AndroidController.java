@@ -2,9 +2,10 @@ package com.leelab.bnwserver;
 
 import java.util.HashMap;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +24,26 @@ public class AndroidController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AndroidController.class);
 	
-	@Autowired private LoginService loginService;
-	@Autowired private MyPageService myPageService;
-	@Autowired private RoomListService roomListService;
-	@Autowired private CreateRoomService createRoomService;
-	@Autowired private EnterRoomService enterRoomService;
+	@Resource
+	private LoginService loginService;
+	
+	@Resource
+	private MyPageService myPageService;
+	
+	@Resource
+	private RoomListService roomListService;
+	
+	@Resource
+	private CreateRoomService createRoomService;
+	
+	@Resource
+	private EnterRoomService enterRoomService;
+	
+	@RequestMapping("test")
+	public void test() {
+		System.out.println(loginService.hashCode());
+		loginService.handleRequest();
+	}
 	
 	@RequestMapping(value="login", method=RequestMethod.POST)
 	public HashMap<String, Object> loginRequest(@RequestBody HashMap<String, Object> param) {

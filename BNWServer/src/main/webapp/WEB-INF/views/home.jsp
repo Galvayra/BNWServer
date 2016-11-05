@@ -12,22 +12,10 @@
 	
 	<button onclick="test(5)">아작스</button>
 	
-	<script>
+	<form action="mobile/test" method="post">
+		<input type="submit">
+	</form>	
 	
-		function test(id) {
-			
-			var ws = new WebSocket('ws:localhost:8080/bnwserver/echo');
-			ws.onopen = function(evt) {
-                alert('연결됨');
-            };
-            ws.onmessage = function(evt) {
-                alert('연결');
-            };
-            ws.onerror = function(evt) {
-                alert('끊김');
-            };
-		}
-	
-	</script>
+
 </body>
 </html>

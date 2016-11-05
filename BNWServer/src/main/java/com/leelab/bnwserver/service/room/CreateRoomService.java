@@ -2,13 +2,16 @@ package com.leelab.bnwserver.service.room;
 
 import java.util.HashMap;
 
+import org.springframework.stereotype.Service;
+
 import com.leelab.bnwserver.dao.BnwUserDao;
 import com.leelab.bnwserver.dao.RecordDao;
 import com.leelab.bnwserver.dao.RoomDao;
 import com.leelab.bnwserver.dto.RecordDto;
-import com.leelab.bnwserver.service.Service;
+import com.leelab.bnwserver.service.AbstractService;
 
-public class CreateRoomService extends Service {
+@Service
+public class CreateRoomService extends AbstractService {
 
 	@Override
 	public void execute(HashMap<String, Object> request, HashMap<String, Object> response) {

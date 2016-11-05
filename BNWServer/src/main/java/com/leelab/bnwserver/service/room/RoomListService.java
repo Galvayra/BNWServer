@@ -3,11 +3,14 @@ package com.leelab.bnwserver.service.room;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.springframework.stereotype.Service;
+
 import com.leelab.bnwserver.dao.RoomDao;
 import com.leelab.bnwserver.dto.RoomDto;
-import com.leelab.bnwserver.service.Service;
+import com.leelab.bnwserver.service.AbstractService;
 
-public class RoomListService extends Service {
+@Service
+public class RoomListService extends AbstractService {
 	
 	@Override
 	public void execute(HashMap<String, Object> request, HashMap<String, Object> response) {
