@@ -6,4 +6,5 @@ public interface RecordDao {
 	public RecordDto getRecord(String id);
 	public void addRecord(String id);
 	public void deleteAll();
+	public void updateRecord(RecordDto record);
 }

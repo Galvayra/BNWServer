@@ -13,6 +13,7 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.leelab.bnwserver.dao.BnwUserDao;
+import com.leelab.bnwserver.dao.GameDao;
 import com.leelab.bnwserver.dao.RecordDao;
 import com.leelab.bnwserver.dao.RoomDao;
 
@@ -63,6 +64,21 @@ public class OperatedRooms {
 		else if(type.equals("out_of_room"))
 		{
 			processTypeOutOfRoom(request.getInt("room_no"), request.getString("in_type"));
+		}
+		else if(type.equals("forced_game_finish"))
+		{
+			try
+			{
+				processTypeForcedGameFinish(request);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		else if(type.equals("end_my_turn"))
+		{
+			processTypeEndMyTurn(request);
 		}
 	}
 	
@@ -125,6 +141,12 @@ public class OperatedRooms {
 		{
 			logger.info("{}번방 게임 가능");
 			obj.put("result", true);
+			
+			GameDao gDao = sqlSession.getMapper(GameDao.class);
+			int gameNumber = gDao.getNextGameNumber();
+			gDao.insertGame(new GameDto(gameNumber, room.getCreator(), room.getParticipant()));
+			obj.put("game_no", gameNumber);
+			logger.info("{}번방 {}번 게임 생성", gameNumber);
 			broadCastInRoom(room_no, obj.toString());
 		}		
 	}
@@ -162,29 +184,147 @@ public class OperatedRooms {
 		logger.info("{}번방 나가기 요청 - !{}!", room_no, inType);
 		RoomDao dao = sqlSession.getMapper(RoomDao.class);
 
-		if(inType.equals("super"))
+		try
 		{
-			JSONObject obj = new JSONObject();
-			obj.put("type", "out!");
-			broadCastInRoom(room_no, obj.toString());
-			dao.deleteRoom(room_no);			
-		}
-		else if(inType.equals("non-super"))
-		{
-			JSONObject obj = new JSONObject();
-			obj.put("type", "participant_out!");
-			sendSuper(room_no, obj.toString());
+			if(inType.equals("super"))
+			{
+				JSONObject obj = new JSONObject();
+				obj.put("type", "out!");
+				broadCastInRoom(room_no, obj.toString());
+				System.out.println("..?");
+				dao.deleteRoom(room_no);			
+			}
+			else if(inType.equals("non-super"))
+			{
+				JSONObject obj = new JSONObject();
+				obj.put("type", "participant_out!");
+				sendSuper(room_no, obj.toString());
 
-			obj.put("type", "out!");
-			sendParticipant(room_no, obj.toString());
-			
-			RoomDto currentRoom = dao.getRoom(room_no);
-			currentRoom.setParticipant("");
-			currentRoom.setParticipant_ready(1);
-			currentRoom.setRoom_state(RoomState.WAIT.getValue());
-			dao.updateRoom(currentRoom);
+				obj.put("type", "out!");
+				sendParticipant(room_no, obj.toString());
+				
+				RoomDto currentRoom = dao.getRoom(room_no);
+				currentRoom.setParticipant("");
+				currentRoom.setParticipant_ready(1);
+				currentRoom.setRoom_state(RoomState.WAIT.getValue());
+				dao.updateRoom(currentRoom);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
 		}
 		
+	}
+	private void processTypeForcedGameFinish(JSONObject request) throws IOException {
+		logger.info(request.toString());
+		
+		JSONObject responseForWinner = new JSONObject();
+		JSONObject responseForLoser = new JSONObject();
+		
+		responseForWinner.put("type", "game_finish_out_win");
+		responseForLoser.put("type", "game_finish_out_lose");
+		
+		int room_no = request.getInt("room_no");
+		String inType = request.getString("in_type");
+		int game_no = request.getInt("game_no");
+		
+		GameDao gDao = sqlSession.getMapper(GameDao.class);
+		RoomDao rDao = sqlSession.getMapper(RoomDao.class);
+		RecordDao recordDao = sqlSession.getMapper(RecordDao.class);
+
+		RoomDto room = rDao.getRoom(room_no);
+		GameDto game = gDao.selectGame(game_no);
+		
+		/* 게임 강제종료 요청에 대한 패배처리 */
+		if(inType.equals("super"))
+		{
+			game.setWinner(room.getParticipant());
+			game.setLoser(room.getCreator());
+		}
+		else
+		{
+			game.setWinner(room.getCreator());
+			game.setLoser(room.getParticipant());
+		}
+		
+		RecordDto winnerRecord = recordDao.getRecord(game.getWinner());
+		RecordDto loserRecord = recordDao.getRecord(game.getLoser());
+		
+		winnerRecord.setWin(winnerRecord.getWin()+1);
+		loserRecord.setLose(loserRecord.getLose()+1);
+		winnerRecord.calculateWinningRate();
+		loserRecord.calculateWinningRate();
+		
+		logger.info("게임 내역 업데이트");
+		gDao.updateGame(game);
+		
+		logger.info("승자 게임 전적 업데이트");
+		recordDao.updateRecord(winnerRecord);
+		
+		logger.info("패자 게임 전적 업데이트");
+		recordDao.updateRecord(loserRecord);
+		
+		logger.info("방 삭제");
+		rDao.deleteRoom(room_no);
+		
+		if(inType.equals("super"))
+		{
+			sendSuper(room.getRoom_no(), responseForLoser.toString());
+			sendParticipant(room.getRoom_no(), responseForWinner.toString());
+		}
+		else
+		{
+			sendSuper(room.getRoom_no(), responseForWinner.toString());
+			sendParticipant(room.getRoom_no(), responseForLoser.toString());
+		}
+	}
+	private void processTypeEndMyTurn(JSONObject request) throws IOException {
+		int game_no = request.getInt("game_no");
+		int score = request.getInt("score");
+		int room_no = request.getInt("room_no");
+		String inType = request.getString("in_type");
+		
+		GameDao gDao = sqlSession.getMapper(GameDao.class);
+		GameDto game = gDao.selectGame(game_no);
+		
+		JSONObject response = new JSONObject();
+		response.put("type", "notification_game_info");
+		
+		logger.info("게이머 점수 업데이트");		
+		if(inType.equals("super"))
+		{
+			if(game.getGamer_1_score()-score<0)
+			{
+				//방장 패배 처리
+				logger.info("방장 패배");
+			}
+			else
+			{
+				game.setGamer_1_score(game.getGamer_1_score()-score);
+				game.setTurn(2);
+				response.put("turn", "non-super");
+			}
+		}
+		else
+		{
+			if(game.getGamer_2_score()-score<0)
+			{
+				//참가자 패배처리
+				logger.info("참가자 패배");
+			}
+			else
+			{
+				game.setGamer_2_score(game.getGamer_2_score()-score);
+				game.setTurn(1);
+				response.put("turn", "super");
+			}
+		}
+		logger.info("게임 정보 업데이트");
+		gDao.updateGame(game);
+		
+		response.put("game", game);
+		broadCastInRoom(room_no, response.toString());
 	}
 	
 	public void setSqlSession(SqlSession session) {
@@ -201,9 +341,13 @@ public class OperatedRooms {
 	}
 	
 	public void sendParticipant(int room_no, String msg) throws IOException {
-		if(operatedRooms.get(room_no).get("participant")!=null)
+		WebSocketSession conn = operatedRooms.get(room_no).get("participant");
+		if(conn!=null)
 		{
-			operatedRooms.get(room_no).get("participant").sendMessage(new TextMessage(msg));
+			if(conn.isOpen())
+			{
+				conn.sendMessage(new TextMessage(msg));
+			}
 		}
 	}
 	

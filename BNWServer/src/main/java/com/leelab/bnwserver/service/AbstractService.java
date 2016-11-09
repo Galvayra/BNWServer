@@ -2,10 +2,13 @@ package com.leelab.bnwserver.service;
 
 import java.util.HashMap;
 
+import javax.annotation.Resource;
+
 import org.apache.ibatis.session.SqlSession;
 
-public abstract class Service {
-	
+public abstract class AbstractService {
+
+	@Resource
 	private SqlSession sqlSession;
 	private Object[] params;
 	

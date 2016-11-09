@@ -10,6 +10,15 @@
 		VALUES(#{param1})
 	</insert>
 	
+	<update id="updateRecord">
+		UPDATE RECORD SET WIN = #{win},
+						  DRAW = #{draw},
+						  LOSE = #{lose},
+						  SCORE = #{score},
+						  WINNING_RATE = #{winning_rate}
+ 				    WHERE ID = #{id}
+	</update>
+	
 	<select id="getRecord" resultType="com.leelab.bnwserver.dto.RecordDto">
 		SELECT * FROM RECORD WHERE ID = #{param1}
 	</select>

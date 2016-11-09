@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leelab.bnwserver.dao.GameDao">
+	<select id="selectGame" resultType="com.leelab.bnwserver.dto.GameDto">
+		SELECT * FROM GAME WHERE NO = #{param1}
+	</select>
+	
+	<update id="updateGame" parameterType="com.leelab.bnwserver.dto.GameDto">
+		UPDATE GAME SET FINISH_AT = #{finish_at, jdbcType=TIMESTAMP}, 
+						WINNER = #{winner, jdbcType=VARCHAR}, 
+						LOSER = #{loser, jdbcType=VARCHAR},
+						GAMER_1_SCORE = #{gamer_1_score},
+						GAMER_2_SCORE = #{gamer_2_score},
+						ROUND = #{round},
+						TURN = #{turn},
+						GAMER_1_ROUND = #{gamer_1_round},
+						GAMER_2_ROUND = #{gamer_2_round}
+					 WHERE NO = #{no}
+	</update>
+	
+	<insert id="insertGame" parameterType="com.leelab.bnwserver.dto.GameDto">
+		INSERT INTO GAME(NO, GAMER_1, GAMER_2) VALUES(#{no},#{gamer_1},#{gamer_2})
+	</insert>
+	
+	<delete id="deleteGames">
+		DELETE FROM GAME
+	</delete>
+	
+	<select id="getNextGameNumber" resultType="int">
+		SELECT GAME_NO_SEQ.NEXTVAL FROM DUAL
+	</select>
+	
+</mapper>

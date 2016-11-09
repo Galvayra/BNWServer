@@ -5,23 +5,23 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="loginService" class="com.leelab.bnwserver.service.LoginService" scope="prototype">
+	<bean id="loginService" class="com.leelab.bnwserver.service.LoginService" scope="request">
 		<property name="sqlSession" ref="sqlSession"/>
 	</bean>
 	
-	<bean id="myPageService" class="com.leelab.bnwserver.service.MyPageService">
+	<bean id="myPageService" class="com.leelab.bnwserver.service.MyPageService" scope="request">
 		<property name="sqlSession" ref="sqlSession"/>
 	</bean>
 	
-	<bean id="roomListService" class="com.leelab.bnwserver.service.room.RoomListService">
+	<bean id="roomListService" class="com.leelab.bnwserver.service.room.RoomListService" scope="request">
 		<property name="sqlSession" ref="sqlSession"/>
 	</bean>
 		
-	<bean id="createRoomService" class="com.leelab.bnwserver.service.room.CreateRoomService">
+	<bean id="createRoomService" class="com.leelab.bnwserver.service.room.CreateRoomService" scope="request">
 		<property name="sqlSession" ref="sqlSession"/>
 	</bean>	
 	
-	<bean id="enterRoomService" class="com.leelab.bnwserver.service.room.EnterRoomService">
+	<bean id="enterRoomService" class="com.leelab.bnwserver.service.room.EnterRoomService" scope="request">
 		<property name="sqlSession" ref="sqlSession"/>
 	</bean>
 	

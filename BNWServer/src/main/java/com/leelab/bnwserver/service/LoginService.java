@@ -4,11 +4,13 @@ import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.leelab.bnwserver.dao.BnwUserDao;
 import com.leelab.bnwserver.dto.BnwUserDto;
 
-public class LoginService extends Service {
+@Service
+public class LoginService extends AbstractService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoginService.class);
 	
@@ -16,7 +18,7 @@ public class LoginService extends Service {
 	public void execute(HashMap<String, Object> request, HashMap<String, Object> response) {
 		String requestId = request.get("id").toString();
 		String requestPassword = request.get("password").toString();
-
+		
 		Login result = null;
 		logger.info("ø‰√ª ID - {}, PW - {}", requestId, requestPassword);
 		BnwUserDto user = callDao(BnwUserDao.class).getUser(requestId);
