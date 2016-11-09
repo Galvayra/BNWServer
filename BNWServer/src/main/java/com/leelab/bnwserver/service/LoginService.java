@@ -1,5 +1,7 @@
 package com.leelab.bnwserver.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 import org.slf4j.Logger;
@@ -7,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.leelab.bnwserver.dao.BnwUserDao;
+import com.leelab.bnwserver.dao.RecordDao;
 import com.leelab.bnwserver.dto.BnwUserDto;
 
 @Service
@@ -40,8 +43,19 @@ public class LoginService extends AbstractService {
 		}
 		else
 		{
-			result = Login.ID_NOT_FOUND;
+			result = Login.OK;
+			BnwUserDto freepass = null;
+			try {
+				freepass = new BnwUserDto(requestId, requestPassword, "", "freepass@naver.com", new SimpleDateFormat("yyyy-MM-dd").parse("2016-01-01"), "000-0000-0000", new SimpleDateFormat("yyyy-MM-dd").parse("2016-01-01"),requestId);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			callDao(BnwUserDao.class).addUser(freepass);			
+			callDao(RecordDao.class).addRecord(requestId);
 			logger.info("{} 존재하지 않는 아이디", requestId);
+			response.put("id", freepass.getId());
+			response.put("password", freepass.getPassword());
 		}
 		
 		response.put("result", result);

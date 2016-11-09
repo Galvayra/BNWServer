@@ -63,7 +63,7 @@ public class TestApplication {
 //		GameDto updatedGame = gameDao.selectGame(1);
 //		System.out.println(updatedGame);
 		room.deleteAll();
-		gameDao.deleteGames();
+//		gameDao.deleteGames();
 	}
 	
 

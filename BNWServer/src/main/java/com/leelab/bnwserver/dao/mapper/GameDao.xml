@@ -17,7 +17,9 @@
 						ROUND = #{round},
 						TURN = #{turn},
 						GAMER_1_ROUND = #{gamer_1_round},
-						GAMER_2_ROUND = #{gamer_2_round}
+						GAMER_2_ROUND = #{gamer_2_round},
+						GAMER_1_TEMP = #{gamer_1_temp}
+						
 					 WHERE NO = #{no}
 	</update>
 	
