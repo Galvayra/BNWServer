@@ -16,9 +16,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.leelab.bnwserver.dao.BnwUserDao;
+import com.leelab.bnwserver.dao.GameDao;
 import com.leelab.bnwserver.dao.RecordDao;
 import com.leelab.bnwserver.dao.RoomDao;
 import com.leelab.bnwserver.dto.BnwUserDto;
+import com.leelab.bnwserver.dto.GameDto;
 import com.leelab.bnwserver.dto.RoomDto;
 import com.leelab.bnwserver.dto.RoomState;
 
@@ -33,6 +35,7 @@ public class TestApplication {
 	private BnwUserDao user;
 	private RecordDao recorder;
 	private RoomDao room;
+	private GameDao gameDao;
 	
 	private BnwUserDto tUser, root;
 	
@@ -41,6 +44,7 @@ public class TestApplication {
 		user = sqlSession.getMapper(BnwUserDao.class);
 		recorder = sqlSession.getMapper(RecordDao.class); 
 		room = sqlSession.getMapper(RoomDao.class);
+		gameDao = sqlSession.getMapper(GameDao.class);
 		
 		tUser = new BnwUserDto("gusrb0808", "cjsrn1992", "", "gusrb0808@naver.com", new SimpleDateFormat("yyyy-MM-dd").parse("1992-08-08"), "010-3221-6564", new SimpleDateFormat("yyyy-MM-dd").parse("1992-08-08"),"±è¶Òµü");
 		root = new BnwUserDto("admin", "1234", "", "admin@bnwserver.net", new SimpleDateFormat("yyyy-MM-dd").parse("1992-08-08"), "010-3221-6564", new SimpleDateFormat("yyyy-MM-dd").parse("1992-08-08"),"°ü¸®ÀÚ");
@@ -48,23 +52,18 @@ public class TestApplication {
 	
 	@Test
 	public void test() throws ParseException {
-//		room.deleteAll();
-//		ArrayList<RoomDto> rooms = room.getAll();
-//
-//		for(RoomDto r : rooms)
-//		{
-//			System.out.println(r.toString());
-//		}
-//		
-//		room.deleteRoom(3);
-//			
-//		for(RoomDto r : rooms)
-//		{
-//			System.out.println(r.toString());
-//		}
-		String intype = "super";
-		System.out.println(intype.equals("super"));
 		
+//		GameDto newGame = new GameDto(tUser.getId(), root.getId());
+//		//gameDao.insertGame(newGame);
+//		
+//		GameDto selectedGame = gameDao.selectGame(1);
+//		System.out.println(selectedGame);
+//		selectedGame.setGamer_1_score(50);
+//		gameDao.updateGame(selectedGame);
+//		GameDto updatedGame = gameDao.selectGame(1);
+//		System.out.println(updatedGame);
+		room.deleteAll();
+		gameDao.deleteGames();
 	}
 	
 

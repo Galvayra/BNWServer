@@ -66,6 +66,11 @@ public class RecordDto {
 	public void setWinning_rate(double winning_rate) {
 		this.winning_rate = winning_rate;
 	}
+	
+	public void calculateWinningRate() {
+		int total = win+draw+lose;
+		setWinning_rate(win/(double)total*100);
+	}
 
 	@Override
 	public String toString() {
