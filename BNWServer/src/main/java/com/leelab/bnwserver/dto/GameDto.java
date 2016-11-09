@@ -16,6 +16,7 @@ public class GameDto {
 	private int turn;
 	private int gamer_1_round;
 	private int gamer_2_round;
+	private int gamer_1_temp;
 	
 	public GameDto(){}
 	
@@ -26,7 +27,7 @@ public class GameDto {
 	}
 	
 	public GameDto(int no, Timestamp create_at, String gamer_1, String gamer_2, Timestamp finish_at, String winner,
-			String loser, int gamer_1_score, int gamer_2_score, int round, int turn, int gamer_1_round, int gamer_2_round) {
+			String loser, int gamer_1_score, int gamer_2_score, int round, int turn, int gamer_1_round, int gamer_2_round, int gamer_1_temp) {
 		super();
 		this.no = no;
 		this.create_at = create_at;
@@ -41,6 +42,7 @@ public class GameDto {
 		this.turn = turn;
 		this.gamer_1_round = gamer_1_round;
 		this.gamer_2_round = gamer_2_round;
+		this.gamer_1_temp = gamer_1_temp;
 	}
 	
 	public int getNo() {
@@ -126,13 +128,21 @@ public class GameDto {
 		this.gamer_2_round = gamer_2_round;
 	}
 
+	public int getGamer_1_temp() {
+		return gamer_1_temp;
+	}
+
+	public void setGamer_1_temp(int gamer_1_temp) {
+		this.gamer_1_temp = gamer_1_temp;
+	}
+
 	@Override
 	public String toString() {
 		return "GameDto [no=" + no + ", create_at=" + create_at + ", gamer_1=" + gamer_1 + ", gamer_2=" + gamer_2
 				+ ", finish_at=" + finish_at + ", winner=" + winner + ", loser=" + loser + ", gamer_1_score="
 				+ gamer_1_score + ", gamer_2_score=" + gamer_2_score + ", round=" + round + ", turn=" + turn
-				+ ", gamer_1_round=" + gamer_1_round + ", gamer_2_round=" + gamer_2_round + "]";
+				+ ", gamer_1_round=" + gamer_1_round + ", gamer_2_round=" + gamer_2_round + ", gamer_1_temp="
+				+ gamer_1_temp + "]";
 	}
-	
-	
+
 }

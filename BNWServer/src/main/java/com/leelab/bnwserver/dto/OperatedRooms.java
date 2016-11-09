@@ -296,12 +296,14 @@ public class OperatedRooms {
 		{
 			if(game.getGamer_1_score()-score<0)
 			{
-				//방장 패배 처리
-				logger.info("방장 패배");
+				response.put("type", "notification_not_invalid_number");
+				sendSuper(room_no, response.toString());
+				return;
 			}
 			else
 			{
 				game.setGamer_1_score(game.getGamer_1_score()-score);
+				game.setGamer_1_temp(score);
 				game.setTurn(2);
 				response.put("turn", "non-super");
 			}
@@ -310,20 +312,120 @@ public class OperatedRooms {
 		{
 			if(game.getGamer_2_score()-score<0)
 			{
-				//참가자 패배처리
-				logger.info("참가자 패배");
+				response.put("type", "notification_not_invalid_number");
+				sendParticipant(room_no, response.toString());
+				return;
 			}
 			else
 			{
 				game.setGamer_2_score(game.getGamer_2_score()-score);
 				game.setTurn(1);
 				response.put("turn", "super");
+				
+				game.setRound(game.getRound()+1);
+				
+				if(game.getGamer_1_temp()>score)
+				{
+					game.setGamer_1_round(game.getGamer_1_round()+1);
+				}
+				else if(game.getGamer_1_temp()==score)
+				{
+					game.setGamer_1_round(game.getGamer_1_round()+1);					
+					game.setGamer_2_round(game.getGamer_2_round()+1);
+				}
+				else
+				{
+					game.setGamer_2_round(game.getGamer_2_round()+1);
+				}
+				
+				RecordDao record = sqlSession.getMapper(RecordDao.class);
+				RecordDto _super = record.getRecord(game.getGamer_1());
+				RecordDto non_super = record.getRecord(game.getGamer_2());
+				RoomDao roomDao = sqlSession.getMapper(RoomDao.class);
+				JSONObject winnerJson = new JSONObject();
+				JSONObject loserJson = new JSONObject();
+				JSONObject drawJson = new JSONObject();
+				
+				winnerJson.put("type", "game_finish_out_win");
+				loserJson.put("type", "game_finish_out_lose");
+				drawJson.put("type", "game_finish_out_draw");
+				if(game.getGamer_1_round()==5)
+				{
+					if(game.getGamer_2_round()==5)
+					{
+						_super.setDraw(_super.getDraw()+1);
+						non_super.setDraw(non_super.getDraw()+1);
+						roomDao.deleteRoom(room_no);
+
+						broadCastInRoom(room_no, drawJson.toString());
+						return;
+					}
+					else
+					{
+						_super.setWin(_super.getWin()+1);
+						non_super.setLose(non_super.getLose()+1);
+						game.setWinner(game.getGamer_1());
+						game.setLoser(game.getGamer_2());
+					}					
+					_super.calculateWinningRate();
+					non_super.calculateWinningRate();
+					record.updateRecord(_super);
+					record.updateRecord(non_super);
+					gDao.updateGame(game);
+					roomDao.deleteRoom(room_no);
+					
+					sendSuper(room_no, winnerJson.toString());
+					sendParticipant(room_no, loserJson.toString());
+					return;
+				}
+				
+				if(game.getGamer_2_round()==5)
+				{
+					if(game.getGamer_1_round()==5)
+					{
+						_super.setDraw(_super.getDraw()+1);
+						non_super.setDraw(non_super.getDraw()+1);
+						roomDao.deleteRoom(room_no);
+						broadCastInRoom(room_no, drawJson.toString());
+						return;
+					}
+					else
+					{
+						_super.setLose(_super.getLose()+1);
+						non_super.setWin(non_super.getWin()+1);
+						game.setWinner(game.getGamer_2());
+						game.setLoser(game.getGamer_1());
+					}
+					
+					_super.calculateWinningRate();
+					non_super.calculateWinningRate();
+					record.updateRecord(_super);
+					record.updateRecord(non_super);
+					gDao.updateGame(game);
+					roomDao.deleteRoom(room_no);
+					sendSuper(room_no, loserJson.toString());
+					sendParticipant(room_no, winnerJson.toString());
+					
+					return;
+				}
 			}
 		}
+		
 		logger.info("게임 정보 업데이트");
 		gDao.updateGame(game);
 		
-		response.put("game", game);
+		JSONObject gameObject = new JSONObject();
+		gameObject.put("no", game.getNo());
+		gameObject.put("round", game.getRound());
+		gameObject.put("turn", game.getTurn());
+		gameObject.put("gamer_1_score", game.getGamer_1_score());
+		gameObject.put("gamer_2_score", game.getGamer_2_score());
+		gameObject.put("gamer_1_round", game.getGamer_1_round());
+		gameObject.put("gamer_2_round", game.getGamer_2_round());
+		logger.info(gameObject.toString());
+		
+		response.put("game", gameObject);
+		response.put("score", score);
 		broadCastInRoom(room_no, response.toString());
 	}
 	
